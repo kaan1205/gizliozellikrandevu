@@ -1,0 +1,137 @@
+@model RandevuPanel.Models.Appointment
+@using RandevuPanel.Models
+@{
+    ViewData["Title"] = "Randevu Detayı";
+    var (badgeClass, statusLabel) = Model.Status switch
+    {
+        AppointmentStatus.Bekliyor => ("primary", "Bekliyor"),
+        AppointmentStatus.Geldi => ("warning", "Geldi"),
+        AppointmentStatus.Tamamlandi => ("success", "Tamamlandı"),
+        AppointmentStatus.IptalEdildi => ("danger", "İptal Edildi"),
+        _ => ("secondary", Model.Status.ToString())
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">
+        <i class="bi bi-card-list me-2 text-primary"></i>Randevu #@Model.Id
+        <span class="badge bg-@badgeClass ms-2">@statusLabel</span>
+    </h5>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil me-1"></i>Düzenle
+        </a>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline"
+              onsubmit="return confirm('Bu randevuyu silmek istediğinize emin misiniz?')">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="bi bi-trash me-1"></i>Sil
+            </button>
+        </form>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Geri
+        </a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold text-primary">
+                <i class="bi bi-calendar me-2"></i>Randevu Bilgileri
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5 text-muted">Tarih</dt>
+                    <dd class="col-sm-7 fw-semibold">@Model.AppointmentDate.ToString("dd MMMM yyyy")</dd>
+
+                    <dt class="col-sm-5 text-muted">Saat</dt>
+                    <dd class="col-sm-7 fw-semibold">@Model.AppointmentTime.ToString("HH:mm")</dd>
+
+                    <dt class="col-sm-5 text-muted">Yapılacak İşlem</dt>
+                    <dd class="col-sm-7">@Model.ProcessDescription</dd>
+
+                    <dt class="col-sm-5 text-muted">Durum</dt>
+                    <dd class="col-sm-7">
+                        <span class="badge bg-@badgeClass">@statusLabel</span>
+                    </dd>
+
+                    <dt class="col-sm-5 text-muted">Oluşturulma</dt>
+                    <dd class="col-sm-7 text-muted small">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                    <dt class="col-sm-5 text-muted">Son Güncelleme</dt>
+                    <dd class="col-sm-7 text-muted small">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold text-primary">
+                <i class="bi bi-person me-2"></i>Müşteri Bilgileri
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5 text-muted">Ad Soyad</dt>
+                    <dd class="col-sm-7 fw-semibold">@Model.CustomerName</dd>
+
+                    <dt class="col-sm-5 text-muted">Telefon</dt>
+                    <dd class="col-sm-7">
+                        <a href="tel:@Model.CustomerPhone">@Model.CustomerPhone</a>
+                    </dd>
+
+                    <dt class="col-sm-5 text-muted">İletişim Platformu</dt>
+                    <dd class="col-sm-7">
+                        <span class="badge bg-secondary">
+                            @(Model.ContactPlatform switch
+                            {
+                                ContactPlatform.Telefon => "📞 Telefon",
+                                ContactPlatform.WhatsApp => "💬 WhatsApp",
+                                ContactPlatform.Facebook => "🔵 Facebook",
+                                ContactPlatform.Instagram => "📸 Instagram",
+                                ContactPlatform.Google => "🔍 Google",
+                                ContactPlatform.Diger => "➕ Diğer",
+                                _ => Model.ContactPlatform.ToString()
+                            })
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold text-primary">
+                <i class="bi bi-car-front me-2"></i>Araç Bilgileri
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5 text-muted">Marka</dt>
+                    <dd class="col-sm-7 fw-semibold">@Model.VehicleBrand</dd>
+
+                    <dt class="col-sm-5 text-muted">Model</dt>
+                    <dd class="col-sm-7">@Model.VehicleModel</dd>
+
+                    <dt class="col-sm-5 text-muted">Şase No</dt>
+                    <dd class="col-sm-7">@(string.IsNullOrWhiteSpace(Model.VinNumber) ? "—" : Model.VinNumber)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+    {
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold text-primary">
+                    <i class="bi bi-journal-text me-2"></i>Ek Notlar
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">@Model.Notes</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

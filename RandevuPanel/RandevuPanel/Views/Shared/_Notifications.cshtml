@@ -1,0 +1,20 @@
+@using RandevuPanel.Models
+@{
+    var approaching = ViewBag.ApproachingAppointments as List<Appointment>;
+}
+
+@if (approaching != null && approaching.Any())
+{
+    <div class="px-3 pt-2">
+        @foreach (var appt in approaching)
+        {
+            <div class="alert alert-danger alert-dismissible fade show py-2 mb-1" role="alert">
+                <i class="bi bi-alarm me-2"></i>
+                <strong>Yaklaşan randevu:</strong>
+                @appt.VehicleBrand @appt.VehicleModel - @appt.AppointmentTime.ToString("HH:mm")
+                (@appt.CustomerName)
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+    </div>
+}

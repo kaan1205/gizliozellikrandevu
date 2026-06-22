@@ -1,0 +1,95 @@
+@model RandevuPanel.ViewModels.Appointments.AppointmentEditViewModel
+@using RandevuPanel.Models
+@{
+    ViewData["Title"] = "Randevu Düzenle";
+}
+
+<div class="card border-0 shadow-sm" style="max-width: 860px;">
+    <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-pencil me-2 text-primary"></i>Randevu Düzenle #@Model.Id
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="AppointmentDate" class="form-label fw-semibold"></label>
+                    <input asp-for="AppointmentDate" type="date" class="form-control" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AppointmentTime" class="form-label fw-semibold"></label>
+                    <input asp-for="AppointmentTime" type="time" class="form-control" />
+                    <span asp-validation-for="AppointmentTime" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="VehicleBrand" class="form-label fw-semibold"></label>
+                    <input asp-for="VehicleBrand" class="form-control" />
+                    <span asp-validation-for="VehicleBrand" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="VehicleModel" class="form-label fw-semibold"></label>
+                    <input asp-for="VehicleModel" class="form-control" />
+                    <span asp-validation-for="VehicleModel" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="VinNumber" class="form-label fw-semibold"></label>
+                    <input asp-for="VinNumber" class="form-control" maxlength="17" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ProcessDescription" class="form-label fw-semibold"></label>
+                    <input asp-for="ProcessDescription" class="form-control" />
+                    <span asp-validation-for="ProcessDescription" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CustomerName" class="form-label fw-semibold"></label>
+                    <input asp-for="CustomerName" class="form-control" />
+                    <span asp-validation-for="CustomerName" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CustomerPhone" class="form-label fw-semibold"></label>
+                    <input asp-for="CustomerPhone" type="tel" class="form-control" />
+                    <span asp-validation-for="CustomerPhone" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ContactPlatform" class="form-label fw-semibold"></label>
+                    <select asp-for="ContactPlatform" class="form-select">
+                        @foreach (var p in Enum.GetValues<ContactPlatform>())
+                        {
+                            <option value="@((int)p)">@p.ToString()</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label fw-semibold"></label>
+                    <select asp-for="Status" class="form-select">
+                        @foreach (var s in Enum.GetValues<AppointmentStatus>())
+                        {
+                            <option value="@((int)s)">
+                                @(s switch
+                                {
+                                    AppointmentStatus.Bekliyor => "Bekliyor",
+                                    AppointmentStatus.Geldi => "Geldi",
+                                    AppointmentStatus.Tamamlandi => "Tamamlandı",
+                                    AppointmentStatus.IptalEdildi => "İptal Edildi",
+                                    _ => s.ToString()
+                                })
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Notes" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Güncelle
+                    </button>
+                    <a asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-outline-secondary">İptal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

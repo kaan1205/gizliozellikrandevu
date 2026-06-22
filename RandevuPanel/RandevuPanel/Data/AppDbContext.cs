@@ -1,0 +1,39 @@
+using Microsoft.EntityFrameworkCore;
+using RandevuPanel.Models;
+
+namespace RandevuPanel.Data;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<AppUser> Users => Set<AppUser>();
+    public DbSet<Appointment> Appointments => Set<Appointment>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<AppUser>(e =>
+        {
+            e.HasIndex(u => u.Email).IsUnique();
+            e.Property(u => u.FirstName).HasMaxLength(100).IsRequired();
+            e.Property(u => u.LastName).HasMaxLength(100).IsRequired();
+            e.Property(u => u.Email).HasMaxLength(200).IsRequired();
+            e.Property(u => u.PasswordHash).IsRequired();
+        });
+
+        modelBuilder.Entity<Appointment>(e =>
+        {
+            e.HasIndex(a => a.AppointmentDate);
+            e.Property(a => a.VehicleBrand).HasMaxLength(100).IsRequired();
+            e.Property(a => a.VehicleModel).HasMaxLength(100).IsRequired();
+            e.Property(a => a.CustomerName).HasMaxLength(200).IsRequired();
+            e.Property(a => a.CustomerPhone).HasMaxLength(20).IsRequired();
+            e.Property(a => a.VinNumber).HasMaxLength(17);
+
+            e.HasOne(a => a.CreatedByUser)
+             .WithMany(u => u.Appointments)
+             .HasForeignKey(a => a.CreatedByUserId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+    }
+}

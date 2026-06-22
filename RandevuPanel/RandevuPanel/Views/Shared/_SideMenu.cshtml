@@ -1,0 +1,43 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<div id="sidebar-wrapper">
+    <div class="sidebar-heading">
+        <i class="bi bi-calendar2-heart me-2 text-primary"></i>
+        <span>RandevuPanel</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="sidebar-link @(controller == "Dashboard" ? "active" : "")"
+           asp-controller="Dashboard" asp-action="Index">
+            <i class="bi bi-speedometer2"></i>
+            <span>Ana Sayfa</span>
+        </a>
+        <a class="sidebar-link @(controller == "Appointments" && action == "Create" ? "active" : "")"
+           asp-controller="Appointments" asp-action="Create">
+            <i class="bi bi-plus-circle"></i>
+            <span>Randevu Ekle</span>
+        </a>
+        <a class="sidebar-link @(controller == "Appointments" && action == "Index" ? "active" : "")"
+           asp-controller="Appointments" asp-action="Index">
+            <i class="bi bi-list-ul"></i>
+            <span>Randevular</span>
+        </a>
+        <a class="sidebar-link @(controller == "Appointments" && action == "Calendar" ? "active" : "")"
+           asp-controller="Appointments" asp-action="Calendar">
+            <i class="bi bi-calendar3"></i>
+            <span>Takvim</span>
+        </a>
+
+        <hr class="sidebar-divider" />
+
+        <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="sidebar-link btn-link w-100 text-start border-0 bg-transparent">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Çıkış Yap</span>
+            </button>
+        </form>
+    </nav>
+</div>
