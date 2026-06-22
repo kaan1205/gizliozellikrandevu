@@ -7,53 +7,53 @@
 <!-- Stat Kartları -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card stat-card-cyan h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-primary bg-opacity-10 p-3">
-                    <i class="bi bi-calendar-day text-primary fs-4"></i>
+                <div class="stat-icon-cyan">
+                    <i class="bi bi-calendar-day text-cyan fs-4"></i>
                 </div>
                 <div>
-                    <div class="fs-2 fw-bold text-primary">@Model.TodayCount</div>
-                    <div class="text-muted small">Bugünkü Randevu</div>
+                    <div class="stat-number text-cyan">@Model.TodayCount</div>
+                    <div class="stat-label">Bugünkü Randevu</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card stat-card-yellow h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-warning bg-opacity-10 p-3">
-                    <i class="bi bi-clock-history text-warning fs-4"></i>
+                <div class="stat-icon-yellow">
+                    <i class="bi bi-clock-history fs-4" style="color:var(--accent-yellow);"></i>
                 </div>
                 <div>
-                    <div class="fs-2 fw-bold text-warning">@Model.UpcomingCount</div>
-                    <div class="text-muted small">Yaklaşan (7 Gün)</div>
+                    <div class="stat-number" style="color:var(--accent-yellow);">@Model.UpcomingCount</div>
+                    <div class="stat-label">Yaklaşan (7 Gün)</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card stat-card-green h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-success bg-opacity-10 p-3">
-                    <i class="bi bi-check-circle text-success fs-4"></i>
+                <div class="stat-icon-green">
+                    <i class="bi bi-check-circle fs-4" style="color:var(--accent-green);"></i>
                 </div>
                 <div>
-                    <div class="fs-2 fw-bold text-success">@Model.CompletedCount</div>
-                    <div class="text-muted small">Tamamlanan</div>
+                    <div class="stat-number" style="color:var(--accent-green);">@Model.CompletedCount</div>
+                    <div class="stat-label">Tamamlanan</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card stat-card-red h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-danger bg-opacity-10 p-3">
-                    <i class="bi bi-x-circle text-danger fs-4"></i>
+                <div class="stat-icon-red">
+                    <i class="bi bi-x-circle fs-4" style="color:var(--accent-red);"></i>
                 </div>
                 <div>
-                    <div class="fs-2 fw-bold text-danger">@Model.CancelledCount</div>
-                    <div class="text-muted small">İptal Edilen</div>
+                    <div class="stat-number" style="color:var(--accent-red);">@Model.CancelledCount</div>
+                    <div class="stat-label">İptal Edilen</div>
                 </div>
             </div>
         </div>
@@ -63,13 +63,13 @@
 <!-- Bugün Uyarı Kutusu -->
 @if (Model.TodayCount == 0)
 {
-    <div class="alert alert-info">
+    <div class="alert alert-info mb-4">
         <i class="bi bi-info-circle me-2"></i>Bugün için planlanmış randevu bulunmuyor.
     </div>
 }
 else
 {
-    <div class="alert alert-primary">
+    <div class="alert alert-primary mb-4">
         <i class="bi bi-calendar-check me-2"></i>
         <strong>Bugün @Model.TodayCount randevunuz var.</strong>
     </div>
@@ -78,18 +78,22 @@ else
 <!-- Yaklaşan Randevular -->
 @if (Model.ApproachingAppointments.Any())
 {
-    <div class="card border-danger border-2 mb-4">
-        <div class="card-header bg-danger text-white fw-semibold">
-            <i class="bi bi-alarm me-2"></i>1 Saatten Az Kalan Randevular
+    <div class="card mb-4" style="border-color: rgba(239,68,68,0.4) !important;">
+        <div class="card-header d-flex align-items-center gap-2" style="border-color: rgba(239,68,68,0.25) !important;">
+            <i class="bi bi-alarm" style="color:var(--accent-red); filter:drop-shadow(0 0 5px var(--accent-red));"></i>
+            <span style="color:var(--accent-red); font-size:0.82rem; letter-spacing:0.06em; font-weight:600; text-transform:uppercase;">
+                1 Saatten Az Kalan
+            </span>
         </div>
         <div class="list-group list-group-flush">
             @foreach (var a in Model.ApproachingAppointments)
             {
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <span class="fw-semibold">@a.AppointmentTime.ToString("HH:mm")</span>
-                        — @a.VehicleBrand @a.VehicleModel
-                        <span class="text-muted">(@a.CustomerName)</span>
+                        <span class="fw-bold text-cyan">@a.AppointmentTime.ToString("HH:mm")</span>
+                        <span class="mx-2" style="color:var(--text-muted);">—</span>
+                        <span>@a.VehicleBrand @a.VehicleModel</span>
+                        <span class="ms-2" style="color:var(--text-muted);">(@a.CustomerName)</span>
                     </div>
                     <a asp-controller="Appointments" asp-action="Detail" asp-route-id="@a.Id"
                        class="btn btn-sm btn-outline-danger">Detay</a>
@@ -100,9 +104,11 @@ else
 }
 
 <!-- Bugünkü Randevular -->
-<div class="card border-0 shadow-sm">
-    <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
-        <span><i class="bi bi-list-check me-2 text-primary"></i>Bugünkü Randevular</span>
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="section-title">
+            <i class="bi bi-list-check me-2 text-cyan"></i>Bugünkü Randevular
+        </span>
         <a asp-controller="Appointments" asp-action="Create" class="btn btn-primary btn-sm">
             <i class="bi bi-plus-lg me-1"></i>Randevu Ekle
         </a>
@@ -110,16 +116,16 @@ else
     <div class="card-body p-0">
         @if (!Model.TodayAppointments.Any())
         {
-            <div class="text-center text-muted py-4">
-                <i class="bi bi-calendar-x fs-1 d-block mb-2"></i>
+            <div class="text-center py-5" style="color:var(--text-muted);">
+                <i class="bi bi-calendar-x fs-1 d-block mb-2" style="opacity:0.3;"></i>
                 Bugün randevu yok.
             </div>
         }
         else
         {
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+                <table class="table table-dark-header mb-0">
+                    <thead>
                         <tr>
                             <th>Saat</th>
                             <th>Müşteri</th>
@@ -133,10 +139,10 @@ else
                         @foreach (var a in Model.TodayAppointments)
                         {
                             <tr>
-                                <td class="fw-semibold">@a.AppointmentTime.ToString("HH:mm")</td>
+                                <td class="fw-bold text-cyan">@a.AppointmentTime.ToString("HH:mm")</td>
                                 <td>
-                                    @a.CustomerName
-                                    <br /><span class="text-muted small">@a.CustomerPhone</span>
+                                    <div>@a.CustomerName</div>
+                                    <div style="color:var(--text-muted); font-size:0.8rem;">@a.CustomerPhone</div>
                                 </td>
                                 <td>@a.VehicleBrand @a.VehicleModel</td>
                                 <td>@a.ProcessDescription</td>
@@ -144,10 +150,10 @@ else
                                     @{
                                         var (badgeClass, statusLabel) = a.Status switch
                                         {
-                                            RandevuPanel.Models.AppointmentStatus.Bekliyor => ("primary", "Bekliyor"),
-                                            RandevuPanel.Models.AppointmentStatus.Geldi => ("warning", "Geldi"),
-                                            RandevuPanel.Models.AppointmentStatus.Tamamlandi => ("success", "Tamamlandı"),
-                                            RandevuPanel.Models.AppointmentStatus.IptalEdildi => ("danger", "İptal"),
+                                            AppointmentStatus.Bekliyor => ("primary", "Bekliyor"),
+                                            AppointmentStatus.Geldi => ("warning", "Geldi"),
+                                            AppointmentStatus.Tamamlandi => ("success", "Tamamlandı"),
+                                            AppointmentStatus.IptalEdildi => ("danger", "İptal"),
                                             _ => ("secondary", "?")
                                         };
                                     }

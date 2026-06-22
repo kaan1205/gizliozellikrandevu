@@ -11,8 +11,9 @@
             <div class="alert alert-danger alert-dismissible fade show py-2 mb-1" role="alert">
                 <i class="bi bi-alarm me-2"></i>
                 <strong>Yaklaşan randevu:</strong>
-                @appt.VehicleBrand @appt.VehicleModel - @appt.AppointmentTime.ToString("HH:mm")
-                (@appt.CustomerName)
+                <span class="text-cyan">@appt.VehicleBrand @appt.VehicleModel</span>
+                — @appt.AppointmentTime.ToString("HH:mm")
+                <span style="color:var(--text-muted);">(@appt.CustomerName)</span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         }

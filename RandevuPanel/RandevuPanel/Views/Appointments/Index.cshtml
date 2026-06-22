@@ -5,8 +5,8 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">
-        <i class="bi bi-list-ul me-2 text-primary"></i>Randevular
+    <h5 class="page-title mb-0">
+        <i class="bi bi-list-ul me-2 text-cyan"></i>Randevular
     </h5>
     <div class="d-flex gap-2">
         <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse"
@@ -24,56 +24,52 @@
 
 <!-- Filtre Paneli -->
 <div class="collapse @(IsFilterActive(Model.Filter) ? "show" : "")" id="filterCollapse">
-    <div class="card mb-3 border-0 shadow-sm">
+    <div class="card mb-3">
         <div class="card-body">
             <form method="get" asp-action="Index">
                 <div class="row g-2">
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Başlangıç Tarihi</label>
+                        <label class="form-label">Başlangıç Tarihi</label>
                         <input type="date" name="DateFrom" class="form-control form-control-sm"
                                value="@Model.Filter.DateFrom?.ToString("yyyy-MM-dd")" />
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Bitiş Tarihi</label>
+                        <label class="form-label">Bitiş Tarihi</label>
                         <input type="date" name="DateTo" class="form-control form-control-sm"
                                value="@Model.Filter.DateTo?.ToString("yyyy-MM-dd")" />
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Araç Markası</label>
+                        <label class="form-label">Araç Markası</label>
                         <input type="text" name="VehicleBrand" class="form-control form-control-sm"
                                value="@Model.Filter.VehicleBrand" placeholder="BMW, Renault..." />
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Müşteri Adı</label>
+                        <label class="form-label">Müşteri Adı</label>
                         <input type="text" name="CustomerName" class="form-control form-control-sm"
                                value="@Model.Filter.CustomerName" placeholder="Ad Soyad" />
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Telefon</label>
+                        <label class="form-label">Telefon</label>
                         <input type="text" name="CustomerPhone" class="form-control form-control-sm"
                                value="@Model.Filter.CustomerPhone" placeholder="05xx..." />
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Platform</label>
+                        <label class="form-label">Platform</label>
                         <select name="ContactPlatform" class="form-select form-select-sm">
                             <option value="">Tümü</option>
                             @foreach (var p in Enum.GetValues<ContactPlatform>())
                             {
-                                <option value="@((int)p)" selected="@(Model.Filter.ContactPlatform == p)">
-                                    @p.ToString()
-                                </option>
+                                <option value="@((int)p)" selected="@(Model.Filter.ContactPlatform == p)">@p.ToString()</option>
                             }
                         </select>
                     </div>
                     <div class="col-md-3 col-6">
-                        <label class="form-label small fw-semibold">Durum</label>
+                        <label class="form-label">Durum</label>
                         <select name="Status" class="form-select form-select-sm">
                             <option value="">Tümü</option>
                             @foreach (var s in Enum.GetValues<AppointmentStatus>())
                             {
-                                <option value="@((int)s)" selected="@(Model.Filter.Status == s)">
-                                    @StatusLabel(s)
-                                </option>
+                                <option value="@((int)s)" selected="@(Model.Filter.Status == s)">@StatusLabel(s)</option>
                             }
                         </select>
                     </div>
@@ -90,20 +86,20 @@
 </div>
 
 <!-- Tablo -->
-<div class="card border-0 shadow-sm">
+<div class="card">
     <div class="card-body p-0">
         @if (!Model.Appointments.Any())
         {
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-calendar-x fs-1 d-block mb-2"></i>
+            <div class="text-center py-5" style="color:var(--text-muted);">
+                <i class="bi bi-calendar-x fs-1 d-block mb-2" style="opacity:0.3;"></i>
                 Randevu bulunamadı.
             </div>
         }
         else
         {
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                <table class="table table-dark-header align-middle mb-0">
+                    <thead>
                         <tr>
                             <th>Tarih / Saat</th>
                             <th>Müşteri</th>
@@ -119,28 +115,24 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="fw-semibold">@a.AppointmentDate.ToString("dd.MM.yyyy")</div>
-                                    <div class="text-muted small">@a.AppointmentTime.ToString("HH:mm")</div>
+                                    <div class="fw-semibold text-cyan">@a.AppointmentDate.ToString("dd.MM.yyyy")</div>
+                                    <div style="color:var(--text-muted); font-size:0.8rem;">@a.AppointmentTime.ToString("HH:mm")</div>
                                 </td>
                                 <td>
                                     <div>@a.CustomerName</div>
-                                    <div class="text-muted small">@a.CustomerPhone</div>
+                                    <div style="color:var(--text-muted); font-size:0.8rem;">@a.CustomerPhone</div>
                                 </td>
                                 <td>@a.VehicleBrand @a.VehicleModel</td>
                                 <td>
                                     <span title="@a.ProcessDescription">
-                                        @(a.ProcessDescription.Length > 30 ? a.ProcessDescription[..30] + "..." : a.ProcessDescription)
+                                        @(a.ProcessDescription.Length > 30 ? a.ProcessDescription[..30] + "…" : a.ProcessDescription)
                                     </span>
                                 </td>
                                 <td>
                                     <span class="badge bg-secondary">@PlatformLabel(a.ContactPlatform)</span>
                                 </td>
                                 <td>
-                                    @{
-                                        var (cls, lbl) = StatusInfo(a.Status);
-                                    }
-                                    <select class="form-select form-select-sm status-select border-0 bg-@cls bg-opacity-10 text-@cls fw-semibold"
-                                            data-id="@a.Id" style="min-width:120px;">
+                                    <select class="status-select" data-id="@a.Id">
                                         @foreach (var s in Enum.GetValues<AppointmentStatus>())
                                         {
                                             <option value="@((int)s)" selected="@(a.Status == s)">@StatusLabel(s)</option>
@@ -174,9 +166,7 @@
 </div>
 
 @section Scripts {
-    <form id="antiforgery-form">
-        @Html.AntiForgeryToken()
-    </form>
+    <form id="antiforgery-form">@Html.AntiForgeryToken()</form>
     <script>
         document.querySelectorAll('.status-select').forEach(function (sel) {
             sel.addEventListener('change', function () {
@@ -211,15 +201,6 @@
         AppointmentStatus.Tamamlandi => "Tamamlandı",
         AppointmentStatus.IptalEdildi => "İptal Edildi",
         _ => s.ToString()
-    };
-
-    (string cls, string lbl) StatusInfo(AppointmentStatus s) => s switch
-    {
-        AppointmentStatus.Bekliyor => ("primary", "Bekliyor"),
-        AppointmentStatus.Geldi => ("warning", "Geldi"),
-        AppointmentStatus.Tamamlandi => ("success", "Tamamlandı"),
-        AppointmentStatus.IptalEdildi => ("danger", "İptal Edildi"),
-        _ => ("secondary", s.ToString())
     };
 
     string PlatformLabel(ContactPlatform p) => p switch

@@ -5,10 +5,11 @@
 
 <div id="sidebar-wrapper">
     <div class="sidebar-heading">
-        <i class="bi bi-calendar2-heart me-2 text-primary"></i>
-        <span>RandevuPanel</span>
+        <i class="bi bi-hexagon-half me-2"></i>RANDEVU<span style="opacity:.5;font-weight:300;">PANEL</span>
     </div>
     <nav class="sidebar-nav">
+        <div class="section-title px-4 mb-2" style="font-size:0.68rem; margin-top:0.5rem;">MENÜ</div>
+
         <a class="sidebar-link @(controller == "Dashboard" ? "active" : "")"
            asp-controller="Dashboard" asp-action="Index">
             <i class="bi bi-speedometer2"></i>
@@ -30,14 +31,21 @@
             <span>Takvim</span>
         </a>
 
-        <hr class="sidebar-divider" />
+        <hr class="sidebar-divider mt-3" />
 
-        <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+        <form asp-controller="Auth" asp-action="Logout" method="post" class="d-block">
             @Html.AntiForgeryToken()
-            <button type="submit" class="sidebar-link btn-link w-100 text-start border-0 bg-transparent">
+            <button type="submit" class="sidebar-link logout-link w-100 text-start border-0 bg-transparent">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Çıkış Yap</span>
             </button>
         </form>
     </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="px-4 pb-3" style="border-top:1px solid rgba(0,212,255,0.08); padding-top:0.75rem;">
+        <div style="font-size:0.68rem; color:var(--text-muted); letter-spacing:0.05em;">
+            <i class="bi bi-circle-fill me-1" style="color:#10b981; font-size:0.5rem;"></i>SİSTEM AKTİF
+        </div>
+    </div>
 </div>

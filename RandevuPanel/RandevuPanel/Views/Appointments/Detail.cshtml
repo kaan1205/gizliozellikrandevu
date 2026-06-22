@@ -12,11 +12,14 @@
     };
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">
-        <i class="bi bi-card-list me-2 text-primary"></i>Randevu #@Model.Id
-        <span class="badge bg-@badgeClass ms-2">@statusLabel</span>
-    </h5>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 class="page-title mb-1">
+            <i class="bi bi-card-list me-2 text-cyan"></i>
+            Randevu <span class="text-cyan">#@Model.Id</span>
+        </h5>
+        <span class="badge bg-@badgeClass">@statusLabel</span>
+    </div>
     <div class="d-flex gap-2">
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
             <i class="bi bi-pencil me-1"></i>Düzenle
@@ -35,53 +38,55 @@
 </div>
 
 <div class="row g-3">
+    <!-- Randevu Bilgileri -->
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white fw-semibold text-primary">
-                <i class="bi bi-calendar me-2"></i>Randevu Bilgileri
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-calendar me-2 text-cyan"></i>
+                <span class="section-title">Randevu Bilgileri</span>
             </div>
             <div class="card-body">
-                <dl class="row mb-0">
-                    <dt class="col-sm-5 text-muted">Tarih</dt>
-                    <dd class="col-sm-7 fw-semibold">@Model.AppointmentDate.ToString("dd MMMM yyyy")</dd>
+                <dl class="row mb-0" style="--bs-gap: 0.75rem;">
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Tarih</dt>
+                    <dd class="col-sm-7 fw-semibold text-cyan">@Model.AppointmentDate.ToString("dd MMMM yyyy")</dd>
 
-                    <dt class="col-sm-5 text-muted">Saat</dt>
-                    <dd class="col-sm-7 fw-semibold">@Model.AppointmentTime.ToString("HH:mm")</dd>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Saat</dt>
+                    <dd class="col-sm-7 fw-semibold text-cyan">@Model.AppointmentTime.ToString("HH:mm")</dd>
 
-                    <dt class="col-sm-5 text-muted">Yapılacak İşlem</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Yapılacak İşlem</dt>
                     <dd class="col-sm-7">@Model.ProcessDescription</dd>
 
-                    <dt class="col-sm-5 text-muted">Durum</dt>
-                    <dd class="col-sm-7">
-                        <span class="badge bg-@badgeClass">@statusLabel</span>
-                    </dd>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Durum</dt>
+                    <dd class="col-sm-7"><span class="badge bg-@badgeClass">@statusLabel</span></dd>
 
-                    <dt class="col-sm-5 text-muted">Oluşturulma</dt>
-                    <dd class="col-sm-7 text-muted small">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Oluşturulma</dt>
+                    <dd class="col-sm-7" style="color:var(--text-muted); font-size:0.82rem;">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
 
-                    <dt class="col-sm-5 text-muted">Son Güncelleme</dt>
-                    <dd class="col-sm-7 text-muted small">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Son Güncelleme</dt>
+                    <dd class="col-sm-7" style="color:var(--text-muted); font-size:0.82rem;">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
                 </dl>
             </div>
         </div>
     </div>
 
+    <!-- Müşteri Bilgileri -->
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white fw-semibold text-primary">
-                <i class="bi bi-person me-2"></i>Müşteri Bilgileri
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-person me-2 text-cyan"></i>
+                <span class="section-title">Müşteri Bilgileri</span>
             </div>
             <div class="card-body">
                 <dl class="row mb-0">
-                    <dt class="col-sm-5 text-muted">Ad Soyad</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Ad Soyad</dt>
                     <dd class="col-sm-7 fw-semibold">@Model.CustomerName</dd>
 
-                    <dt class="col-sm-5 text-muted">Telefon</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Telefon</dt>
                     <dd class="col-sm-7">
-                        <a href="tel:@Model.CustomerPhone">@Model.CustomerPhone</a>
+                        <a href="tel:@Model.CustomerPhone" style="color:var(--accent-cyan);">@Model.CustomerPhone</a>
                     </dd>
 
-                    <dt class="col-sm-5 text-muted">İletişim Platformu</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Platform</dt>
                     <dd class="col-sm-7">
                         <span class="badge bg-secondary">
                             @(Model.ContactPlatform switch
@@ -101,21 +106,25 @@
         </div>
     </div>
 
+    <!-- Araç Bilgileri -->
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white fw-semibold text-primary">
-                <i class="bi bi-car-front me-2"></i>Araç Bilgileri
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-car-front me-2 text-cyan"></i>
+                <span class="section-title">Araç Bilgileri</span>
             </div>
             <div class="card-body">
                 <dl class="row mb-0">
-                    <dt class="col-sm-5 text-muted">Marka</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Marka</dt>
                     <dd class="col-sm-7 fw-semibold">@Model.VehicleBrand</dd>
 
-                    <dt class="col-sm-5 text-muted">Model</dt>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Model</dt>
                     <dd class="col-sm-7">@Model.VehicleModel</dd>
 
-                    <dt class="col-sm-5 text-muted">Şase No</dt>
-                    <dd class="col-sm-7">@(string.IsNullOrWhiteSpace(Model.VinNumber) ? "—" : Model.VinNumber)</dd>
+                    <dt class="col-sm-5" style="color:var(--text-muted); font-size:0.82rem;">Şase No</dt>
+                    <dd class="col-sm-7" style="color:@(string.IsNullOrWhiteSpace(Model.VinNumber) ? "var(--text-muted)" : "inherit");">
+                        @(string.IsNullOrWhiteSpace(Model.VinNumber) ? "—" : Model.VinNumber)
+                    </dd>
                 </dl>
             </div>
         </div>
@@ -124,12 +133,13 @@
     @if (!string.IsNullOrWhiteSpace(Model.Notes))
     {
         <div class="col-lg-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white fw-semibold text-primary">
-                    <i class="bi bi-journal-text me-2"></i>Ek Notlar
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="bi bi-journal-text me-2 text-cyan"></i>
+                    <span class="section-title">Ek Notlar</span>
                 </div>
                 <div class="card-body">
-                    <p class="mb-0">@Model.Notes</p>
+                    <p class="mb-0" style="color:var(--text-dim); line-height:1.7;">@Model.Notes</p>
                 </div>
             </div>
         </div>
