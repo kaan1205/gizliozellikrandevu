@@ -19,15 +19,15 @@ public abstract class BaseController : Controller
         _appointmentService = appointmentService;
     }
 
-    public override async void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        base.OnActionExecuting(context);
-
         if (User.Identity?.IsAuthenticated == true)
         {
             var dashboard = await _appointmentService.GetDashboardDataAsync(CurrentUserId);
             ViewBag.TodayCount = dashboard.TodayCount;
             ViewBag.ApproachingAppointments = dashboard.ApproachingAppointments;
         }
+
+        await next();
     }
 }
