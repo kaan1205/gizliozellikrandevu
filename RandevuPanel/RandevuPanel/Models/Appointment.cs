@@ -25,10 +25,11 @@ public class Appointment
     public TimeOnly AppointmentTime { get; set; }
     public string VehicleBrand { get; set; } = string.Empty;
     public string VehicleModel { get; set; } = string.Empty;
+    public int? VehicleYear { get; set; }
     public string? VinNumber { get; set; }
     public string ProcessDescription { get; set; } = string.Empty;
     public ContactPlatform ContactPlatform { get; set; }
-    public string CustomerName { get; set; } = string.Empty;
+    public string? CustomerName { get; set; }
     public string CustomerPhone { get; set; } = string.Empty;
     public string? Notes { get; set; }
     public AppointmentStatus Status { get; set; } = AppointmentStatus.Bekliyor;

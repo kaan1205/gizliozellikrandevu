@@ -63,6 +63,7 @@ public class AppointmentService : IAppointmentService
             AppointmentTime = vm.AppointmentTime,
             VehicleBrand = vm.VehicleBrand,
             VehicleModel = vm.VehicleModel,
+            VehicleYear = vm.VehicleYear,
             VinNumber = vm.VinNumber,
             ProcessDescription = vm.ProcessDescription,
             ContactPlatform = vm.ContactPlatform,
@@ -88,6 +89,7 @@ public class AppointmentService : IAppointmentService
         appointment.AppointmentTime = vm.AppointmentTime;
         appointment.VehicleBrand = vm.VehicleBrand;
         appointment.VehicleModel = vm.VehicleModel;
+        appointment.VehicleYear = vm.VehicleYear;
         appointment.VinNumber = vm.VinNumber;
         appointment.ProcessDescription = vm.ProcessDescription;
         appointment.ContactPlatform = vm.ContactPlatform;

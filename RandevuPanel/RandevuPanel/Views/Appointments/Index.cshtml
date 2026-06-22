@@ -122,7 +122,13 @@
                                     <div>@a.CustomerName</div>
                                     <div style="color:var(--text-muted); font-size:0.8rem;">@a.CustomerPhone</div>
                                 </td>
-                                <td>@a.VehicleBrand @a.VehicleModel</td>
+                                <td>
+                                    @a.VehicleBrand @a.VehicleModel
+                                    @if (a.VehicleYear.HasValue)
+                                    {
+                                        <div style="color:var(--text-muted); font-size:0.8rem;">@a.VehicleYear</div>
+                                    }
+                                </td>
                                 <td>
                                     <span title="@a.ProcessDescription">
                                         @(a.ProcessDescription.Length > 30 ? a.ProcessDescription[..30] + "…" : a.ProcessDescription)

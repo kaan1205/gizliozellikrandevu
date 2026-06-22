@@ -34,7 +34,12 @@
                     <input asp-for="VehicleModel" class="form-control" />
                     <span asp-validation-for="VehicleModel" class="text-danger small"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    <label asp-for="VehicleYear" class="form-label"></label>
+                    <input asp-for="VehicleYear" type="number" class="form-control" placeholder="2018" min="1900" max="2100" />
+                    <span asp-validation-for="VehicleYear" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
                     <label asp-for="VinNumber" class="form-label"></label>
                     <input asp-for="VinNumber" class="form-control" maxlength="17" />
                 </div>

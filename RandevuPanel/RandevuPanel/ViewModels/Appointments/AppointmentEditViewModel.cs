@@ -23,6 +23,10 @@ public class AppointmentEditViewModel
     [Display(Name = "Araç Modeli")]
     public string VehicleModel { get; set; } = string.Empty;
 
+    [Display(Name = "Model Yılı")]
+    [Range(1900, 2100, ErrorMessage = "Geçerli bir yıl giriniz.")]
+    public int? VehicleYear { get; set; }
+
     [Display(Name = "Şase No")]
     [MaxLength(17)]
     public string? VinNumber { get; set; }
@@ -35,9 +39,8 @@ public class AppointmentEditViewModel
     [Display(Name = "İletişim Platformu")]
     public ContactPlatform ContactPlatform { get; set; }
 
-    [Required(ErrorMessage = "Müşteri adı soyadı zorunludur.")]
     [Display(Name = "Müşteri Adı Soyadı")]
-    public string CustomerName { get; set; } = string.Empty;
+    public string? CustomerName { get; set; }
 
     [Required(ErrorMessage = "Müşteri iletişim numarası zorunludur.")]
     [Display(Name = "Müşteri Telefonu")]

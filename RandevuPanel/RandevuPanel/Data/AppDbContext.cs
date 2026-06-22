@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
             e.HasIndex(a => a.AppointmentDate);
             e.Property(a => a.VehicleBrand).HasMaxLength(100).IsRequired();
             e.Property(a => a.VehicleModel).HasMaxLength(100).IsRequired();
-            e.Property(a => a.CustomerName).HasMaxLength(200).IsRequired();
+            e.Property(a => a.CustomerName).HasMaxLength(200);
             e.Property(a => a.CustomerPhone).HasMaxLength(20).IsRequired();
             e.Property(a => a.VinNumber).HasMaxLength(17);
 

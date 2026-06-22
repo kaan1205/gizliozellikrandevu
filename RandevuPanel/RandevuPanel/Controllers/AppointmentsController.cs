@@ -94,6 +94,7 @@ public class AppointmentsController : BaseController
             AppointmentTime = appointment.AppointmentTime,
             VehicleBrand = appointment.VehicleBrand,
             VehicleModel = appointment.VehicleModel,
+            VehicleYear = appointment.VehicleYear,
             VinNumber = appointment.VinNumber,
             ProcessDescription = appointment.ProcessDescription,
             ContactPlatform = appointment.ContactPlatform,
