@@ -33,8 +33,8 @@ public class AppointmentsController : BaseController
     [HttpGet]
     public async Task<IActionResult> CalendarEvents(string start, string end)
     {
-        var from = DateOnly.FromDateTime(DateTime.Parse(start));
-        var to = DateOnly.FromDateTime(DateTime.Parse(end));
+        var from = DateOnly.Parse(start[..10]);
+        var to = DateOnly.Parse(end[..10]);
 
         var appointments = await _appointmentService.GetCalendarEventsAsync(CurrentUserId, from, to);
 
