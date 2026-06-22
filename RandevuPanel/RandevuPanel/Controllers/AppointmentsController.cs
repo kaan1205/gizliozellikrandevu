@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RandevuPanel.Data;
 using RandevuPanel.Models;
 using RandevuPanel.Services;
 using RandevuPanel.ViewModels.Appointments;
@@ -8,10 +10,12 @@ namespace RandevuPanel.Controllers;
 public class AppointmentsController : BaseController
 {
     private readonly IAppointmentService _appointmentService;
+    private readonly AppDbContext _db;
 
-    public AppointmentsController(IAppointmentService appointmentService) : base(appointmentService)
+    public AppointmentsController(IAppointmentService appointmentService, AppDbContext db) : base(appointmentService)
     {
         _appointmentService = appointmentService;
+        _db = db;
     }
 
     public async Task<IActionResult> Index(AppointmentFilterViewModel filter)
@@ -64,19 +68,45 @@ public class AppointmentsController : BaseController
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Create(string? customerName, string? vehicleBrand, string? vehicleModel,
+        int? vehicleYear, int? contactPlatform, string? processDescription, string? notes, int? fromLeadId)
     {
-        return View(new AppointmentCreateViewModel());
+        var vm = new AppointmentCreateViewModel
+        {
+            CustomerName = customerName,
+            VehicleBrand = vehicleBrand ?? string.Empty,
+            VehicleModel = vehicleModel ?? string.Empty,
+            VehicleYear = vehicleYear,
+            ProcessDescription = processDescription ?? string.Empty,
+            Notes = notes
+        };
+        if (contactPlatform.HasValue && Enum.IsDefined(typeof(RandevuPanel.Models.ContactPlatform), contactPlatform.Value))
+            vm.ContactPlatform = (RandevuPanel.Models.ContactPlatform)contactPlatform.Value;
+        if (fromLeadId.HasValue)
+            ViewBag.FromLeadId = fromLeadId.Value;
+        return View(vm);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(AppointmentCreateViewModel model)
+    public async Task<IActionResult> Create(AppointmentCreateViewModel model, int? fromLeadId)
     {
         if (!ModelState.IsValid)
             return View(model);
 
         await _appointmentService.CreateAsync(model, CurrentUserId);
+
+        if (fromLeadId.HasValue)
+        {
+            var lead = await _db.Leads.FirstOrDefaultAsync(l => l.Id == fromLeadId.Value && l.CreatedByUserId == CurrentUserId);
+            if (lead != null)
+            {
+                lead.Status = LeadStatus.RandevuyaDonustu;
+                lead.UpdatedAt = DateTime.Now;
+                await _db.SaveChangesAsync();
+            }
+        }
+
         TempData["Success"] = "Randevu başarıyla eklendi.";
         return RedirectToAction(nameof(Index));
     }

@@ -1,0 +1,166 @@
+@model List<RandevuPanel.Models.Lead>
+@using RandevuPanel.Models
+@{
+    ViewData["Title"] = "Potansiyel Müşteriler";
+    LeadStatus? statusFilter = ViewBag.StatusFilter;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="page-title mb-0">
+        <i class="bi bi-people me-2 text-cyan"></i>Potansiyel Müşteriler
+    </h5>
+    <a asp-action="Create" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-lg me-1"></i>Ekle
+    </a>
+</div>
+
+<!-- Durum Filtreleri -->
+<div class="d-flex gap-2 mb-3 flex-wrap">
+    <a asp-action="Index" class="btn btn-sm @(statusFilter == null ? "btn-primary" : "btn-outline-secondary")">Tümü</a>
+    <a asp-action="Index" asp-route-status="@((int)LeadStatus.Yeni)"
+       class="btn btn-sm @(statusFilter == LeadStatus.Yeni ? "btn-info" : "btn-outline-secondary")">Yeni</a>
+    <a asp-action="Index" asp-route-status="@((int)LeadStatus.Arandı)"
+       class="btn btn-sm @(statusFilter == LeadStatus.Arandı ? "btn-warning" : "btn-outline-secondary")">Arandı</a>
+    <a asp-action="Index" asp-route-status="@((int)LeadStatus.RandevuyaDonustu)"
+       class="btn btn-sm @(statusFilter == LeadStatus.RandevuyaDonustu ? "btn-success" : "btn-outline-secondary")">Randevuya Dönüştü</a>
+    <a asp-action="Index" asp-route-status="@((int)LeadStatus.İlgilenmedi)"
+       class="btn btn-sm @(statusFilter == LeadStatus.İlgilenmedi ? "btn-danger" : "btn-outline-secondary")">İlgilenmedi</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5" style="color:var(--text-muted);">
+                <i class="bi bi-person-x fs-1 d-block mb-2" style="opacity:0.3;"></i>
+                Kayıt bulunamadı.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-dark-header align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Müşteri</th>
+                            <th>Araç</th>
+                            <th>İstediği İşlem</th>
+                            <th>Platform</th>
+                            <th>Durum</th>
+                            <th>Tarih</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var l in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="fw-semibold">@l.CustomerName</div>
+                                    @if (!string.IsNullOrWhiteSpace(l.Notes))
+                                    {
+                                        <div style="color:var(--text-muted); font-size:0.78rem;" title="@l.Notes">
+                                            @(l.Notes.Length > 40 ? l.Notes[..40] + "…" : l.Notes)
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(l.VehicleBrand))
+                                    {
+                                        <span>@l.VehicleBrand @l.VehicleModel</span>
+                                        @if (l.VehicleYear.HasValue)
+                                        {
+                                            <div style="color:var(--text-muted); font-size:0.8rem;">@l.VehicleYear</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span style="color:var(--text-muted)">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span title="@l.ProcessDescription">
+                                        @(l.ProcessDescription.Length > 35 ? l.ProcessDescription[..35] + "…" : l.ProcessDescription)
+                                    </span>
+                                </td>
+                                <td><span class="badge bg-secondary">@PlatformLabel(l.ContactPlatform)</span></td>
+                                <td>
+                                    <select class="lead-status-select" data-id="@l.Id" style="font-size:0.8rem;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:@StatusColor(l.Status);">
+                                        @foreach (var s in Enum.GetValues<LeadStatus>())
+                                        {
+                                            <option value="@((int)s)" selected="@(l.Status == s)" style="background:#1a2035;color:#fff;">@StatusLabel(s)</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td style="font-size:0.8rem; color:var(--text-muted);">@l.CreatedAt.ToString("dd.MM.yyyy")</td>
+                                <td class="text-end">
+                                    @if (l.Status != LeadStatus.RandevuyaDonustu)
+                                    {
+                                        <a asp-action="ConvertToAppointment" asp-route-id="@l.Id"
+                                           class="btn btn-sm btn-outline-success" title="Randevuya Dönüştür">
+                                            <i class="bi bi-calendar-plus"></i>
+                                        </a>
+                                    }
+                                    <form asp-action="Delete" asp-route-id="@l.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('Silinsin mi?')">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <form id="af-form">@Html.AntiForgeryToken()</form>
+    <script>
+        document.querySelectorAll('.lead-status-select').forEach(function (sel) {
+            sel.addEventListener('change', function () {
+                const id = this.dataset.id;
+                const status = this.value;
+                const token = document.querySelector('#af-form input[name="__RequestVerificationToken"]')?.value || '';
+                fetch('/Leads/UpdateStatus', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': token },
+                    body: `id=${id}&status=${status}`
+                }).then(r => r.json()).then(data => {
+                    if (!data.success) alert('Güncellenemedi.');
+                });
+            });
+        });
+    </script>
+}
+
+@functions {
+    string StatusLabel(LeadStatus s) => s switch
+    {
+        LeadStatus.Yeni => "Yeni",
+        LeadStatus.Arandı => "Arandı",
+        LeadStatus.RandevuyaDonustu => "Randevuya Dönüştü",
+        LeadStatus.İlgilenmedi => "İlgilenmedi",
+        _ => s.ToString()
+    };
+
+    string StatusColor(LeadStatus s) => s switch
+    {
+        LeadStatus.Yeni => "#0dcaf0",
+        LeadStatus.Arandı => "#ffc107",
+        LeadStatus.RandevuyaDonustu => "#198754",
+        LeadStatus.İlgilenmedi => "#dc3545",
+        _ => "#aaa"
+    };
+
+    string PlatformLabel(ContactPlatform p) => p switch
+    {
+        ContactPlatform.Diger => "Diğer",
+        ContactPlatform.Telefon => "Telefon",
+        _ => p.ToString()
+    };
+}

@@ -10,6 +10,7 @@ public class AppUser
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public ICollection<Lead> Leads { get; set; } = new List<Lead>();
 
     public string FullName => $"{FirstName} {LastName}";
 }

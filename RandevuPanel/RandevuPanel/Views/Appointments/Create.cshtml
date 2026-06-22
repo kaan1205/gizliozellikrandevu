@@ -10,8 +10,18 @@
         <span class="section-title">Yeni Randevu Ekle</span>
     </div>
     <div class="card-body">
+        @if (ViewBag.FromLeadId != null)
+        {
+            <div class="alert alert-info py-2 px-3 mb-3" style="font-size:0.85rem;">
+                <i class="bi bi-person-check me-1"></i>Potansiyel müşteriden randevuya dönüştürülüyor.
+            </div>
+        }
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
+            @if (ViewBag.FromLeadId != null)
+            {
+                <input type="hidden" name="fromLeadId" value="@ViewBag.FromLeadId" />
+            }
             <div class="row g-3">
                 <div class="col-md-6">
                     <label asp-for="AppointmentDate" class="form-label"></label>

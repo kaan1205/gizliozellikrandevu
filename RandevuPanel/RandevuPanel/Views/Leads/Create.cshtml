@@ -1,0 +1,72 @@
+@model RandevuPanel.ViewModels.Leads.LeadCreateViewModel
+@using RandevuPanel.Models
+@{
+    ViewData["Title"] = "Potansiyel Müşteri Ekle";
+}
+
+<div class="card" style="max-width: 680px;">
+    <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-person-plus text-cyan"></i>
+        <span class="section-title">Potansiyel Müşteri Ekle</span>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="row g-3">
+                <div class="col-12">
+                    <label asp-for="CustomerName" class="form-label"></label>
+                    <input asp-for="CustomerName" class="form-control" placeholder="Ad Soyad" />
+                    <span asp-validation-for="CustomerName" class="text-danger small"></span>
+                </div>
+                <div class="col-md-5">
+                    <label asp-for="VehicleBrand" class="form-label"></label>
+                    <input asp-for="VehicleBrand" class="form-control" placeholder="BMW, Renault..." />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="VehicleModel" class="form-label"></label>
+                    <input asp-for="VehicleModel" class="form-control" placeholder="320i, Clio..." />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="VehicleYear" class="form-label"></label>
+                    <input asp-for="VehicleYear" type="number" class="form-control" placeholder="2018" min="1900" max="2100" />
+                    <span asp-validation-for="VehicleYear" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ContactPlatform" class="form-label"></label>
+                    <select asp-for="ContactPlatform" class="form-select">
+                        @foreach (var p in Enum.GetValues<ContactPlatform>())
+                        {
+                            <option value="@((int)p)">
+                                @(p switch
+                                {
+                                    ContactPlatform.Telefon => "📞 Telefon",
+                                    ContactPlatform.WhatsApp => "💬 WhatsApp",
+                                    ContactPlatform.Facebook => "🔵 Facebook",
+                                    ContactPlatform.Instagram => "📸 Instagram",
+                                    ContactPlatform.Google => "🔍 Google",
+                                    ContactPlatform.Diger => "➕ Diğer",
+                                    _ => p.ToString()
+                                })
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ProcessDescription" class="form-label"></label>
+                    <input asp-for="ProcessDescription" class="form-control" placeholder="Yağ değişimi, fren bakımı..." />
+                    <span asp-validation-for="ProcessDescription" class="text-danger small"></span>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Notlar..."></textarea>
+                </div>
+                <div class="col-12 d-flex gap-2 pt-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

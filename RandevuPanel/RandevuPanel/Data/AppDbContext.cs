@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<AppUser> Users => Set<AppUser>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<Lead> Leads => Set<Lead>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,6 +34,18 @@ public class AppDbContext : DbContext
             e.HasOne(a => a.CreatedByUser)
              .WithMany(u => u.Appointments)
              .HasForeignKey(a => a.CreatedByUserId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Lead>(e =>
+        {
+            e.Property(l => l.CustomerName).HasMaxLength(200).IsRequired();
+            e.Property(l => l.VehicleBrand).HasMaxLength(100);
+            e.Property(l => l.VehicleModel).HasMaxLength(100);
+
+            e.HasOne(l => l.CreatedByUser)
+             .WithMany(u => u.Leads)
+             .HasForeignKey(l => l.CreatedByUserId)
              .OnDelete(DeleteBehavior.Cascade);
         });
     }

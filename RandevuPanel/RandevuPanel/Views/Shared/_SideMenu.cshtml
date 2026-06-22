@@ -30,6 +30,11 @@
             <i class="bi bi-calendar3"></i>
             <span>Takvim</span>
         </a>
+        <a class="sidebar-link @(controller == "Leads" ? "active" : "")"
+           asp-controller="Leads" asp-action="Index">
+            <i class="bi bi-people"></i>
+            <span>Potansiyel Müşteriler</span>
+        </a>
 
         <hr class="sidebar-divider mt-3" />
 
