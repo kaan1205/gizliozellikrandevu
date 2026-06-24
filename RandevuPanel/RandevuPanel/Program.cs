@@ -55,6 +55,7 @@ using (var scope = app.Services.CreateScope())
                 Id INT IDENTITY(1,1) PRIMARY KEY,
                 VehicleBrand NVARCHAR(100) NULL,
                 VehicleModel NVARCHAR(100) NULL,
+                VehicleYear INT NULL,
                 PhotoPath NVARCHAR(500) NULL,
                 PossibleOperations NVARCHAR(MAX) NULL,
                 TotalCost DECIMAL(18,2) NULL,

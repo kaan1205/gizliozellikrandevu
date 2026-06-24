@@ -22,13 +22,17 @@
             </div>
 
             <div id="fieldsArea" class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label class="form-label">Araç Marka</label>
                     <input asp-for="VehicleBrand" class="form-control" placeholder="BMW, Renault..." />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Araç Model</label>
                     <input asp-for="VehicleModel" class="form-control" placeholder="320i, Clio..." />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Yıl</label>
+                    <input asp-for="VehicleYear" type="number" class="form-control" placeholder="2018" min="1900" max="2100" />
                 </div>
                 <div class="col-12">
                     <label class="form-label">Ünite Fotoğrafı</label>

@@ -46,6 +46,7 @@ public class ServiceNotesController : BaseController
         {
             VehicleBrand = model.OperationNotPossible ? null : model.VehicleBrand,
             VehicleModel = model.OperationNotPossible ? null : model.VehicleModel,
+            VehicleYear = model.OperationNotPossible ? null : model.VehicleYear,
             PhotoPath = model.OperationNotPossible ? null : photoPath,
             PossibleOperations = model.OperationNotPossible ? null : model.PossibleOperations,
             TotalCost = model.OperationNotPossible ? null : model.TotalCost,
@@ -73,6 +74,7 @@ public class ServiceNotesController : BaseController
             Id = note.Id,
             VehicleBrand = note.VehicleBrand,
             VehicleModel = note.VehicleModel,
+            VehicleYear = note.VehicleYear,
             ExistingPhotoPath = note.PhotoPath,
             PossibleOperations = note.PossibleOperations,
             TotalCost = note.TotalCost,
@@ -112,6 +114,7 @@ public class ServiceNotesController : BaseController
         {
             note.VehicleBrand = model.VehicleBrand;
             note.VehicleModel = model.VehicleModel;
+            note.VehicleYear = model.VehicleYear;
             note.PhotoPath = photoPath;
             note.PossibleOperations = model.PossibleOperations;
             note.TotalCost = model.TotalCost;

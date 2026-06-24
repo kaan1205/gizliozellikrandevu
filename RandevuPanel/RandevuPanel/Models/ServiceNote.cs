@@ -5,6 +5,7 @@ public class ServiceNote
     public int Id { get; set; }
     public string? VehicleBrand { get; set; }
     public string? VehicleModel { get; set; }
+    public int? VehicleYear { get; set; }
     public string? PhotoPath { get; set; }
     public string? PossibleOperations { get; set; }
     public decimal? TotalCost { get; set; }
