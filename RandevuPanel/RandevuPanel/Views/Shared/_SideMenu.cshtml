@@ -35,6 +35,11 @@
             <i class="bi bi-people"></i>
             <span>Potansiyel Müşteriler</span>
         </a>
+        <a class="sidebar-link @(controller == "ServiceNotes" ? "active" : "")"
+           asp-controller="ServiceNotes" asp-action="Index">
+            <i class="bi bi-journal-text"></i>
+            <span>Notlar</span>
+        </a>
 
         <hr class="sidebar-divider mt-3" />
 

@@ -41,4 +41,35 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+    var conn = db.Database.GetDbConnection();
+    await conn.OpenAsync();
+    using var cmd = conn.CreateCommand();
+    cmd.CommandText = """
+        IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'ServiceNotes')
+        BEGIN
+            CREATE TABLE ServiceNotes (
+                Id INT IDENTITY(1,1) PRIMARY KEY,
+                VehicleBrand NVARCHAR(100) NULL,
+                VehicleModel NVARCHAR(100) NULL,
+                PhotoPath NVARCHAR(500) NULL,
+                PossibleOperations NVARCHAR(MAX) NULL,
+                TotalCost DECIMAL(18,2) NULL,
+                OperationNote NVARCHAR(MAX) NULL,
+                OperationNotPossible BIT NOT NULL DEFAULT 0,
+                CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+                UpdatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+                CreatedByUserId INT NOT NULL,
+                CONSTRAINT FK_ServiceNotes_AppUser FOREIGN KEY (CreatedByUserId)
+                    REFERENCES Users(Id) ON DELETE CASCADE
+            )
+        END
+        """;
+    await cmd.ExecuteNonQueryAsync();
+    await conn.CloseAsync();
+}
+
 app.Run();
