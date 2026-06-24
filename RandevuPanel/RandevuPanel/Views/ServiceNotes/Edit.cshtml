@@ -45,7 +45,6 @@
                 <label class="form-check-label fw-semibold text-danger" for="notPossibleCheck">
                     <i class="bi bi-x-circle me-1"></i>İşlem Yapılamıyor
                 </label>
-                <div class="text-muted small mt-1">Bu kutuyu işaretlerseniz aşağıdaki alanlar devre dışı kalır.</div>
             </div>
 
             <div id="fieldsArea" class="row g-3">
@@ -83,9 +82,7 @@
 
         function toggle() {
             var inputs = area.querySelectorAll('input, textarea, select');
-            inputs.forEach(function (el) {
-                el.disabled = chk.checked;
-            });
+            inputs.forEach(function (el) { el.disabled = chk.checked; });
             area.style.opacity = chk.checked ? '0.4' : '1';
         }
 

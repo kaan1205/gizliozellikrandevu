@@ -44,10 +44,10 @@ public class ServiceNotesController : BaseController
 
         var note = new ServiceNote
         {
-            VehicleBrand = model.OperationNotPossible ? null : model.VehicleBrand,
-            VehicleModel = model.OperationNotPossible ? null : model.VehicleModel,
-            VehicleYear = model.OperationNotPossible ? null : model.VehicleYear,
-            PhotoPath = model.OperationNotPossible ? null : photoPath,
+            VehicleBrand = model.VehicleBrand,
+            VehicleModel = model.VehicleModel,
+            VehicleYear = model.VehicleYear,
+            PhotoPath = photoPath,
             PossibleOperations = model.OperationNotPossible ? null : model.PossibleOperations,
             TotalCost = model.OperationNotPossible ? null : model.TotalCost,
             OperationNote = model.OperationNotPossible ? null : model.OperationNote,
@@ -100,26 +100,14 @@ public class ServiceNotesController : BaseController
             photoPath = await SavePhoto(model.Photo);
         }
 
+        note.VehicleBrand = model.VehicleBrand;
+        note.VehicleModel = model.VehicleModel;
+        note.VehicleYear = model.VehicleYear;
+        note.PhotoPath = photoPath;
         note.OperationNotPossible = model.OperationNotPossible;
-        if (model.OperationNotPossible)
-        {
-            note.VehicleBrand = null;
-            note.VehicleModel = null;
-            note.PhotoPath = null;
-            note.PossibleOperations = null;
-            note.TotalCost = null;
-            note.OperationNote = null;
-        }
-        else
-        {
-            note.VehicleBrand = model.VehicleBrand;
-            note.VehicleModel = model.VehicleModel;
-            note.VehicleYear = model.VehicleYear;
-            note.PhotoPath = photoPath;
-            note.PossibleOperations = model.PossibleOperations;
-            note.TotalCost = model.TotalCost;
-            note.OperationNote = model.OperationNote;
-        }
+        note.PossibleOperations = model.OperationNotPossible ? null : model.PossibleOperations;
+        note.TotalCost = model.OperationNotPossible ? null : model.TotalCost;
+        note.OperationNote = model.OperationNotPossible ? null : model.OperationNote;
         note.UpdatedAt = DateTime.Now;
 
         await _db.SaveChangesAsync();
