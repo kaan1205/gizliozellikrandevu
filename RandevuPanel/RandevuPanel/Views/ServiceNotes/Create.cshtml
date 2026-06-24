@@ -12,16 +12,7 @@
         <form asp-action="Create" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
-            <!-- İşlem Olmıyor kutucuğu en üstte -->
-            <div class="form-check mb-4 p-3 rounded" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);">
-                <input class="form-check-input" type="checkbox" asp-for="OperationNotPossible" id="notPossibleCheck" />
-                <label class="form-check-label fw-semibold text-danger" for="notPossibleCheck">
-                    <i class="bi bi-x-circle me-1"></i>İşlem Yapılamıyor
-                </label>
-                <div class="text-muted small mt-1">Bu kutuyu işaretlerseniz diğer alanlar devre dışı kalır.</div>
-            </div>
-
-            <div id="fieldsArea" class="row g-3">
+            <div class="row g-3 mb-4">
                 <div class="col-md-5">
                     <label class="form-label">Araç Marka</label>
                     <input asp-for="VehicleBrand" class="form-control" placeholder="BMW, Renault..." />
@@ -38,6 +29,18 @@
                     <label class="form-label">Ünite Fotoğrafı</label>
                     <input asp-for="Photo" type="file" class="form-control" accept="image/*" />
                 </div>
+            </div>
+
+            <!-- İşlem Yapılamıyor -->
+            <div class="form-check mb-4 p-3 rounded" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);">
+                <input class="form-check-input" type="checkbox" asp-for="OperationNotPossible" id="notPossibleCheck" />
+                <label class="form-check-label fw-semibold text-danger" for="notPossibleCheck">
+                    <i class="bi bi-x-circle me-1"></i>İşlem Yapılamıyor
+                </label>
+                <div class="text-muted small mt-1">Bu kutuyu işaretlerseniz aşağıdaki alanlar devre dışı kalır.</div>
+            </div>
+
+            <div id="fieldsArea" class="row g-3">
                 <div class="col-12">
                     <label class="form-label">Yapılabilecek İşlemler</label>
                     <textarea asp-for="PossibleOperations" class="form-control" rows="3"
