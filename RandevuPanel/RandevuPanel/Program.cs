@@ -68,6 +68,10 @@ using (var scope = app.Services.CreateScope())
                     REFERENCES Users(Id) ON DELETE CASCADE
             )
         END
+        ELSE IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ServiceNotes' AND COLUMN_NAME = 'VehicleYear')
+        BEGIN
+            ALTER TABLE ServiceNotes ADD VehicleYear INT NULL
+        END
         """;
     await cmd.ExecuteNonQueryAsync();
     await conn.CloseAsync();
