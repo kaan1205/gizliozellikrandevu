@@ -44,7 +44,7 @@ public class AppDbContext : DbContext
             e.Property(o => o.VehicleBrand).HasMaxLength(100);
             e.Property(o => o.VehicleModel).HasMaxLength(100);
             e.Property(o => o.CustomerName).HasMaxLength(200);
-            e.Property(o => o.TotalCost).HasColumnType("decimal(18,2)");
+            e.Property(o => o.LicensePlate).HasMaxLength(20);
 
             e.HasOne(o => o.CreatedByUser)
              .WithMany(u => u.CompletedOperations)

@@ -51,8 +51,8 @@ else
                         <th>Tarih</th>
                         <th>Müşteri</th>
                         <th>Araç</th>
+                        <th>Plaka</th>
                         <th>Yapılan İşlem</th>
-                        <th>Maliyet</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -72,21 +72,12 @@ else
                                     <span class="text-muted">-</span>
                                 }
                             </td>
+                            <td class="text-nowrap">@(op.LicensePlate ?? "-")</td>
                             <td style="max-width:300px;">
                                 <span style="white-space:pre-line">@(op.OperationDescription ?? "-")</span>
                                 @if (!string.IsNullOrEmpty(op.Notes))
                                 {
                                     <div class="text-muted small mt-1"><i class="bi bi-sticky me-1"></i>@op.Notes</div>
-                                }
-                            </td>
-                            <td class="text-nowrap">
-                                @if (op.TotalCost.HasValue)
-                                {
-                                    <span class="text-cyan fw-semibold">@op.TotalCost.Value.ToString("N2") ₺</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted">-</span>
                                 }
                             </td>
                             <td class="text-end text-nowrap">

@@ -57,9 +57,9 @@ public class CompletedOperationsController : BaseController
             VehicleModel = model.VehicleModel,
             VehicleYear = model.VehicleYear,
             CustomerName = model.CustomerName,
+            LicensePlate = model.LicensePlate,
             OperationDescription = model.OperationDescription,
             OperationDate = model.OperationDate,
-            TotalCost = model.TotalCost,
             Notes = model.Notes,
             CreatedByUserId = CurrentUserId,
             CreatedAt = DateTime.Now,
@@ -85,9 +85,9 @@ public class CompletedOperationsController : BaseController
             VehicleModel = op.VehicleModel,
             VehicleYear = op.VehicleYear,
             CustomerName = op.CustomerName,
+            LicensePlate = op.LicensePlate,
             OperationDescription = op.OperationDescription,
             OperationDate = op.OperationDate,
-            TotalCost = op.TotalCost,
             Notes = op.Notes
         });
     }
@@ -103,9 +103,9 @@ public class CompletedOperationsController : BaseController
         op.VehicleModel = model.VehicleModel;
         op.VehicleYear = model.VehicleYear;
         op.CustomerName = model.CustomerName;
+        op.LicensePlate = model.LicensePlate;
         op.OperationDescription = model.OperationDescription;
         op.OperationDate = model.OperationDate;
-        op.TotalCost = model.TotalCost;
         op.Notes = model.Notes;
         op.UpdatedAt = DateTime.Now;
 

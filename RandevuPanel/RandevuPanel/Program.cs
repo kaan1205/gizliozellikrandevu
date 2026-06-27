@@ -84,9 +84,9 @@ using (var scope = app.Services.CreateScope())
                 VehicleModel NVARCHAR(100) NULL,
                 VehicleYear INT NULL,
                 CustomerName NVARCHAR(200) NULL,
+                LicensePlate NVARCHAR(20) NULL,
                 OperationDescription NVARCHAR(MAX) NULL,
                 OperationDate DATE NOT NULL,
-                TotalCost DECIMAL(18,2) NULL,
                 Notes NVARCHAR(MAX) NULL,
                 CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
                 UpdatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
@@ -94,6 +94,13 @@ using (var scope = app.Services.CreateScope())
                 CONSTRAINT FK_CompletedOperations_AppUser FOREIGN KEY (CreatedByUserId)
                     REFERENCES Users(Id) ON DELETE CASCADE
             )
+        END
+        ELSE
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CompletedOperations' AND COLUMN_NAME = 'LicensePlate')
+                ALTER TABLE CompletedOperations ADD LicensePlate NVARCHAR(20) NULL;
+            IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CompletedOperations' AND COLUMN_NAME = 'TotalCost')
+                ALTER TABLE CompletedOperations DROP COLUMN TotalCost;
         END
         """;
     await cmd.ExecuteNonQueryAsync();

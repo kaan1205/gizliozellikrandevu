@@ -7,8 +7,8 @@ public class CompletedOperationViewModel
     public string? VehicleModel { get; set; }
     public int? VehicleYear { get; set; }
     public string? CustomerName { get; set; }
+    public string? LicensePlate { get; set; }
     public string? OperationDescription { get; set; }
     public DateOnly OperationDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
-    public decimal? TotalCost { get; set; }
     public string? Notes { get; set; }
 }
