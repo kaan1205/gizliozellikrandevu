@@ -1,0 +1,57 @@
+@model RandevuPanel.ViewModels.CompletedOperationViewModel
+@{
+    ViewData["Title"] = "Yeni İşlem Kaydı";
+}
+
+<div class="card" style="max-width:720px;">
+    <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-wrench-adjustable text-cyan"></i>
+        <span class="section-title">Yeni İşlem Kaydı</span>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">Müşteri Ad Soyad</label>
+                    <input asp-for="CustomerName" class="form-control" placeholder="Ad Soyad" />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Araç Marka</label>
+                    <input asp-for="VehicleBrand" class="form-control" placeholder="BMW, Renault..." />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Araç Model</label>
+                    <input asp-for="VehicleModel" class="form-control" placeholder="320i, Clio..." />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Yıl</label>
+                    <input asp-for="VehicleYear" type="number" class="form-control" placeholder="2018" min="1900" max="2100" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">İşlem Tarihi</label>
+                    <input asp-for="OperationDate" type="date" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Toplam Maliyet (₺)</label>
+                    <input asp-for="TotalCost" type="number" step="0.01" class="form-control" placeholder="0.00" />
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Yapılan İşlem</label>
+                    <textarea asp-for="OperationDescription" class="form-control" rows="4"
+                              placeholder="Yapılan işlemleri buraya yazın..."></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Not</label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Ek notlar..."></textarea>
+                </div>
+                <div class="col-12 d-flex gap-2 pt-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -74,6 +74,29 @@ using (var scope = app.Services.CreateScope())
         END
         """;
     await cmd.ExecuteNonQueryAsync();
+
+    cmd.CommandText = """
+        IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'CompletedOperations')
+        BEGIN
+            CREATE TABLE CompletedOperations (
+                Id INT IDENTITY(1,1) PRIMARY KEY,
+                VehicleBrand NVARCHAR(100) NULL,
+                VehicleModel NVARCHAR(100) NULL,
+                VehicleYear INT NULL,
+                CustomerName NVARCHAR(200) NULL,
+                OperationDescription NVARCHAR(MAX) NULL,
+                OperationDate DATE NOT NULL,
+                TotalCost DECIMAL(18,2) NULL,
+                Notes NVARCHAR(MAX) NULL,
+                CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+                UpdatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+                CreatedByUserId INT NOT NULL,
+                CONSTRAINT FK_CompletedOperations_AppUser FOREIGN KEY (CreatedByUserId)
+                    REFERENCES Users(Id) ON DELETE CASCADE
+            )
+        END
+        """;
+    await cmd.ExecuteNonQueryAsync();
     await conn.CloseAsync();
 }
 

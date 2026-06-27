@@ -40,6 +40,11 @@
             <i class="bi bi-journal-text"></i>
             <span>Notlar</span>
         </a>
+        <a class="sidebar-link @(controller == "CompletedOperations" ? "active" : "")"
+           asp-controller="CompletedOperations" asp-action="Index">
+            <i class="bi bi-wrench-adjustable"></i>
+            <span>Yapılan İşlemler</span>
+        </a>
 
         <hr class="sidebar-divider mt-3" />
 

@@ -12,6 +12,7 @@ public class AppUser
     public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     public ICollection<Lead> Leads { get; set; } = new List<Lead>();
     public ICollection<ServiceNote> ServiceNotes { get; set; } = new List<ServiceNote>();
+    public ICollection<CompletedOperation> CompletedOperations { get; set; } = new List<CompletedOperation>();
 
     public string FullName => $"{FirstName} {LastName}";
 }

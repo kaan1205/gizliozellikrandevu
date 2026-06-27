@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Lead> Leads => Set<Lead>();
     public DbSet<ServiceNote> ServiceNotes => Set<ServiceNote>();
+    public DbSet<CompletedOperation> CompletedOperations => Set<CompletedOperation>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +36,19 @@ public class AppDbContext : DbContext
             e.HasOne(a => a.CreatedByUser)
              .WithMany(u => u.Appointments)
              .HasForeignKey(a => a.CreatedByUserId)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<CompletedOperation>(e =>
+        {
+            e.Property(o => o.VehicleBrand).HasMaxLength(100);
+            e.Property(o => o.VehicleModel).HasMaxLength(100);
+            e.Property(o => o.CustomerName).HasMaxLength(200);
+            e.Property(o => o.TotalCost).HasColumnType("decimal(18,2)");
+
+            e.HasOne(o => o.CreatedByUser)
+             .WithMany(u => u.CompletedOperations)
+             .HasForeignKey(o => o.CreatedByUserId)
              .OnDelete(DeleteBehavior.Cascade);
         });
 
